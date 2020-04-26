@@ -1,68 +1,55 @@
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+mongoose.connect("mongodb://localhost:27017/heroes_app", { useUnifiedTopology: true, useNewUrlParser: true });
 
-var campgrounds = [{
-    name: "Salmon Creek",
-    image: "https://farm9.staticflickr.com/8442/7962474612_bf2baf67c0.jpg"
-},
-{
-    name: "Granite Hill",
-    image: "https://farm1.staticflickr.com/60/215827008_6489cd30c3.jpg"
-},
-{
-    name: "Mountain Goat's Rest",
-    image: "https://farm7.staticflickr.com/6057/6234565071_4d20668bbd.jpg"
-},
-{
-    name: "Salmon Creek",
-    image: "https://farm9.staticflickr.com/8442/7962474612_bf2baf67c0.jpg"
-},
-{
-    name: "Granite Hill",
-    image: "https://farm1.staticflickr.com/60/215827008_6489cd30c3.jpg"
-},
-{
-    name: "Mountain Goat's Rest",
-    image: "https://farm7.staticflickr.com/6057/6234565071_4d20668bbd.jpg"
-},
-{
-    name: "Salmon Creek",
-    image: "https://farm9.staticflickr.com/8442/7962474612_bf2baf67c0.jpg"
-},
-{
-    name: "Granite Hill",
-    image: "https://farm1.staticflickr.com/60/215827008_6489cd30c3.jpg"
-},
-{
-    name: "Mountain Goat's Rest",
-    image: "https://farm7.staticflickr.com/6057/6234565071_4d20668bbd.jpg"
-}
-];
-
-app.use(bodyParser.urlencoded({extended: true}));
-app.set("view engine", "ejs");
-
-app.get("/", function (req, res) {
-    res.render("landing");
+var heroesSchema = new mongoose.Schema({
+    name: String,
+    hero_name: String, 
+    gender: String,
+    hero_team: String,
+    power_level: Number
 });
 
-app.get("/campgrounds", function (req, res) {
-    res.render("campgrounds", {campgroundsData: campgrounds});
-});
+var Hero = mongoose.model("Hero", heroesSchema);
 
-app.post("/campgrounds", function(req, res){
-    var name = req.body.name;
-    var image = req.body.image;
-    var newCampground = {name: name, image: image};
-    campgrounds.push(newCampground);
-    res.redirect("/campgrounds");
-});
+// var iron_man = new Hero({
+//     name: "Reed Richards",
+//     hero_name: "Mr. Fantastic",
+//     gender: "Male",
+//     hero_team: "Fantastic Four",
+//     power_level: 1000000
+// });
 
-app.get("/campgrounds/new", function(req, res){
-    res.render("new");
-});
+// iron_man.save(function(err, hero){
+//     if(err){
+//         console.log("Something Went Wrong..");
+//     }
+//     else{
+//         console.log("We just saved a Hero to our Database..");
+//         console.log(hero);
+//     }
+// });
 
-app.listen(3000, function () {
-    console.log("The YelpCamp Server has started at localhost:3000");
+// Hero.create({
+//     name: "Wanda Maximoff",
+//     hero_name: "Scarlet Witch",
+//     gender: "Female",
+//     hero_team: "X-Men/Avengers",
+//     power_level: 500000
+// }, function(err, hero){
+//     if(err){
+//         console.log(err);
+//     } else{
+//         console.log(hero);
+//     }
+// });
+
+Hero.find({}, function(err, heroes){
+    if(err){
+        console.log("Something Went Wrong");
+        console.log(err);
+    }else{
+        console.log("All the Heroes..");
+        console.log(heroes); 
+    }
+
 });
