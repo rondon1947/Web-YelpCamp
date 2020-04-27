@@ -1,55 +1,76 @@
+var express = require('express');
+var app = express();
+var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost:27017/heroes_app", { useUnifiedTopology: true, useNewUrlParser: true });
 
-var heroesSchema = new mongoose.Schema({
-    name: String,
-    hero_name: String, 
-    gender: String,
-    hero_team: String,
-    power_level: Number
+mongoose.connect("mongodb://localhost:27017/yelpcamp", { useUnifiedTopology: true, useNewUrlParser: true });
+app.use(bodyParser.urlencoded({extended: true}));
+app.set("view engine", "ejs");
+
+var campgroundSchema = new mongoose.Schema({
+    name: String, 
+    image: String,
+    description: String
 });
 
-var Hero = mongoose.model("Hero", heroesSchema);
+var Campground = mongoose.model("Campground", campgroundSchema);
 
-// var iron_man = new Hero({
-//     name: "Reed Richards",
-//     hero_name: "Mr. Fantastic",
-//     gender: "Male",
-//     hero_team: "Fantastic Four",
-//     power_level: 1000000
-// });
-
-// iron_man.save(function(err, hero){
-//     if(err){
-//         console.log("Something Went Wrong..");
-//     }
-//     else{
-//         console.log("We just saved a Hero to our Database..");
-//         console.log(hero);
-//     }
-// });
-
-// Hero.create({
-//     name: "Wanda Maximoff",
-//     hero_name: "Scarlet Witch",
-//     gender: "Female",
-//     hero_team: "X-Men/Avengers",
-//     power_level: 500000
-// }, function(err, hero){
+// Campground.create({
+//     name: "Salmon Creek",
+//     image: "https://farm9.staticflickr.com/8442/7962474612_bf2baf67c0.jpg",
+//     description: "This is nature's beauty. A beautiful camping ground."
+// }, function(err, campground){
 //     if(err){
 //         console.log(err);
 //     } else{
-//         console.log(hero);
+//         console.log("New Campground Created..");
+//         console.log(campground);
 //     }
 // });
 
-Hero.find({}, function(err, heroes){
-    if(err){
-        console.log("Something Went Wrong");
-        console.log(err);
-    }else{
-        console.log("All the Heroes..");
-        console.log(heroes); 
-    }
+app.get("/", function (req, res) {
+    res.render("landing");
+});
 
+app.get("/campgrounds", function (req, res) {
+    Campground.find({}, function(err, allCampgrounds){
+        if(err){
+            console.log(err);
+        } else{
+            res.render("index", {campgroundsData: allCampgrounds});    
+        }
+    });
+});
+
+app.post("/campgrounds", function(req, res){
+    var name = req.body.name;
+    var image = req.body.image;
+    var description = req.body.description;
+    var newCampground = {name: name, image: image, description: description};
+    Campground.create(newCampground, function(err, newlyCreatedGround){
+        if(err){
+            console.log(err);
+        } else{
+            res.redirect("/campgrounds");
+        }
+    });
+});
+
+app.get("/campgrounds/new", function(req, res){
+    res.render("new");
+});
+
+app.get("/campgrounds/:id", function(req, res){
+    Campground.findById(req.params.id, function(err, foundCampground){
+        if(err){
+            console.log(err);
+        }
+        else{
+            res.render("show", {campground: foundCampground});
+        }
+    });
+});
+
+app.listen(3000, function () {
+    console.log("The YelpCamp Server has started at localhost:3000");
 });
