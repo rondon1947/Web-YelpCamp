@@ -1,0 +1,29 @@
+<%- include('../partials/header'); -%>
+
+<h1>
+    This is the show template..
+</h1>
+
+<div>
+    <p>
+        <%= campground.name %> 
+    </p>
+    <img src="<%= campground.image %>">
+    <p>
+        <%= campground.description %>
+    </p>
+</div>
+
+<p>
+    <a class="btn btn-success" href="/campgrounds/<%= campground._id %>/reviews/new">
+        Add new Review..
+    </a>
+</p>
+
+<% campground.reviews.forEach(function(review){ %>
+    <p>
+        <strong><%= review.author %></strong> - <%= review.text %>  
+    </p>
+<% }) %>
+
+<%- include('../partials/footer'); -%>

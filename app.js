@@ -2,31 +2,14 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var Campground = require("./models/campground");
+var Review = require("./models/review")
+var seedDB = require("./seeds");
 
 mongoose.connect("mongodb://localhost:27017/yelpcamp", { useUnifiedTopology: true, useNewUrlParser: true });
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
-
-var campgroundSchema = new mongoose.Schema({
-    name: String, 
-    image: String,
-    description: String
-});
-
-var Campground = mongoose.model("Campground", campgroundSchema);
-
-// Campground.create({
-//     name: "Salmon Creek",
-//     image: "https://farm9.staticflickr.com/8442/7962474612_bf2baf67c0.jpg",
-//     description: "This is nature's beauty. A beautiful camping ground."
-// }, function(err, campground){
-//     if(err){
-//         console.log(err);
-//     } else{
-//         console.log("New Campground Created..");
-//         console.log(campground);
-//     }
-// });
+seedDB();
 
 app.get("/", function (req, res) {
     res.render("landing");
@@ -37,7 +20,7 @@ app.get("/campgrounds", function (req, res) {
         if(err){
             console.log(err);
         } else{
-            res.render("index", {campgroundsData: allCampgrounds});    
+            res.render("campgrounds/index", {campgroundsData: allCampgrounds});    
         }
     });
 });
@@ -57,17 +40,34 @@ app.post("/campgrounds", function(req, res){
 });
 
 app.get("/campgrounds/new", function(req, res){
-    res.render("new");
+    res.render("campgrounds/new");
 });
 
 app.get("/campgrounds/:id", function(req, res){
-    Campground.findById(req.params.id, function(err, foundCampground){
+    Campground.findById(req.params.id).populate("reviews").exec(function(err, foundCampground){
         if(err){
             console.log(err);
         }
         else{
-            res.render("show", {campground: foundCampground});
+            console.log(foundCampground);
+            res.render("campgrounds/show", {campground: foundCampground});
         }
+    });
+});
+
+app.get("/campgrounds/:id/reviews/new", function(req, res){
+    Campground.findById(req.params.id, function (err, foundCampground) {
+        res.render("reviews/new", {campground: foundCampground});
+    });
+});
+
+app.post("/campgrounds/:id/reviews", function (req, res){
+    Campground.findById(req.params.id, function (err, foundCampground) {
+        Review.create(req.body.review, function(err, review){
+            foundCampground.reviews.push(review);
+            foundCampground.save();
+            res.redirect("/campgrounds/"+req.params.id);
+        });
     });
 });
 
