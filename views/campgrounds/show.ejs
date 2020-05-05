@@ -1,29 +1,58 @@
 <%- include('../partials/header'); -%>
 
-<h1>
-    This is the show template..
-</h1>
-
-<div>
-    <p>
-        <%= campground.name %> 
-    </p>
-    <img src="<%= campground.image %>">
-    <p>
-        <%= campground.description %>
-    </p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="lead">
+                <p>
+                    YelpCamp
+                </p>
+                <div class="list-group">
+                    <li class="list-group-item active">Information 1</li>
+                    <li class="list-group-item">Information 2</li>
+                    <li class="list-group-item">Information 3</li>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="thumbnail">
+                <img class="img-responsive" src="<%= campground.image %>" style="width: 100%; height: 100%">
+                <div class="caption-full" style="padding: 10px">
+                    <h4 class="pull-right">
+                        Rs. 699/night
+                    </h4>
+                    <h4>
+                        <a>
+                            <%= campground.name %>
+                        </a>
+                    </h4>
+                    <p>
+                        <%= campground.description %>
+                    </p>
+                </div>
+            </div>
+            <div class="well">
+                <div class="text-right" style="margin-bottom: 15px">
+                    <a class="btn btn-success" href="/campgrounds/<%= campground._id %>/reviews/new">
+                        Add new Review..
+                    </a>
+                </div>
+                <% campground.reviews.forEach(function(review){ %>
+                <div class="row">
+                    <div class="col-md-12">
+                        <strong><%= review.author %></strong> :
+                        <span class="pull-right">
+                            10 days ago
+                        </span>
+                        <p>
+                            <%= review.text %>
+                        </p>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+        </div>
+    </div>
 </div>
-
-<p>
-    <a class="btn btn-success" href="/campgrounds/<%= campground._id %>/reviews/new">
-        Add new Review..
-    </a>
-</p>
-
-<% campground.reviews.forEach(function(review){ %>
-    <p>
-        <strong><%= review.author %></strong> - <%= review.text %>  
-    </p>
-<% }) %>
 
 <%- include('../partials/footer'); -%>
