@@ -22,34 +22,33 @@ var data = [
 
 function seedDB(){
     Campground.deleteMany({}, function(err){
-        if(err){
-            console.log(err);
-        }
-        console.log("Database deleted");
-        data.forEach(function(seed){
-            Campground.create(seed, function(err, data){
-                if(err){
-                    console.log(err);
-                } else{
-                    console.log("1 campground created");
-                    Review.create(
-                        {
-                            text: "This place is great, but I wish there was Internet..",
-                            author: "JK Rowling"
-                        }, function(err, review){
-                            if(err){
-                                console.log(err);
-                            } else{
-                                data.reviews.push(review);
-                                data.save();
-                                console.log("Created a new Review.");
-                            }
-                        });
-                }
-            });
-        });
+        // if(err){
+        //     console.log(err);
+        // }
+        // console.log("Database deleted");
+        // data.forEach(function(seed){
+        //     Campground.create(seed, function(err, data){
+        //         if(err){
+        //             console.log(err);
+        //         } else{
+        //             console.log("1 campground created");
+        //             Review.create(
+        //                 {
+        //                     text: "This place is great, but I wish there was Internet..",
+        //                     author: "JK Rowling"
+        //                 }, function(err, review){
+        //                     if(err){
+        //                         console.log(err);
+        //                     } else{
+        //                         data.reviews.push(review);
+        //                         data.save();
+        //                         console.log("Created a new Review.");
+        //                     }
+        //                 });
+        //         }
+        //     });
+        // });
     });
-    
 }
 
 module.exports = seedDB;

@@ -12,9 +12,12 @@ router.get("/new", isLoggedIn, function(req, res){
 router.post("/", isLoggedIn, function (req, res){
     Campground.findById(req.params.id, function (err, foundCampground) {
         Review.create(req.body.review, function(err, review){
+            review.author.id = req.user._id;
+            review.author.username = req.user.username;
+            review.save();
             foundCampground.reviews.push(review);
             foundCampground.save();
-            res.redirect("/campgrounds/"+req.params.id);
+            res.redirect("/campgrounds/"+foundCampground._id);
         });
     });
 });
