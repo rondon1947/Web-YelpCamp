@@ -2,14 +2,29 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var passport = require('passport');
+var passportLocal = require('passport-local');
+var passportLocalMongoose = require('passport-local-mongoose');
 var Campground = require("./models/campground");
-var Review = require("./models/review")
+var Review = require("./models/review");
+var User = require('./models/user');
 var seedDB = require("./seeds");
 
 mongoose.connect("mongodb://localhost:27017/yelpcamp", { useUnifiedTopology: true, useNewUrlParser: true });
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 seedDB();
+
+app.use(require("express-session")({
+    secret: "Jai Shree Ram",
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new passportLocal(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.get("/", function (req, res) {
     res.render("landing");
@@ -70,6 +85,40 @@ app.post("/campgrounds/:id/reviews", function (req, res){
         });
     });
 });
+
+app.get("/register", function (req, res){
+    res.render("register");
+});
+
+app.post("/register", function(req, res) {
+    User.register(new User({username: req.body.username}), req.body.password, function (err, user) {
+        if (err){
+            console.log(err);
+            return res.redirect("/register");
+        }
+        passport.authenticate("local")(req, res, function (){
+            res.redirect("/campgrounds");
+        });
+    });
+});
+
+app.post("/login",passport.authenticate("local", {
+    successRedirect: "/campgrounds",
+    failureRedirect : "/login"
+}), function (req, res){
+});
+
+app.get("/logout", function (req, res){
+    req.logout();
+    res.redirect("/");
+});
+
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login");
+}
 
 app.listen(3000, function () {
     console.log("The YelpCamp Server has started at localhost:3000");
