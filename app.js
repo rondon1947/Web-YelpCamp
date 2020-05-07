@@ -8,6 +8,7 @@ var passportLocalMongoose = require('passport-local-mongoose');
 var Campground = require("./models/campground");
 var Review = require("./models/review");
 var User = require('./models/user');
+var methodOverride = require('method-override');
 var seedDB = require("./seeds");
 
 var campgroundRoutes = require('./routes/campgrounds');
@@ -17,6 +18,7 @@ var indexRoutes = require('./routes/index');
 mongoose.connect("mongodb://localhost:27017/yelpcamp", { useUnifiedTopology: true, useNewUrlParser: true });
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
+app.use(methodOverride("_method"));
 // seedDB();
 
 app.use(require("express-session")({
