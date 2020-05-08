@@ -27,10 +27,15 @@
                         </a>
                     </h4>
                     <p>
-                        <em>Submitted by <strong><%= campground.author.username %></em></strong>
+                        <em>Submitted by <strong><%= campground.author.username %></strong></em>
                     </p>
-                    <a class="btn btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit your Campground</a>
-                    <p>
+                    <% if(currentUser && campground.author.id.equals(currentUser._id)){ %>
+                        <a class="btn btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit this Campground</a>
+                        <form style="margin-left: 10px; display: inline" method="post" action="/campgrounds/<%= campground._id %>?_method=DELETE">
+                            <button class="btn btn-danger">Delete this Campground</button>
+                        </form>
+                    <% } %>
+                    <p style="margin-top: 14px">
                         <%= campground.description %>
                     </p>
                 </div>

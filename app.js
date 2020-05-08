@@ -9,7 +9,7 @@ var Campground = require("./models/campground");
 var Review = require("./models/review");
 var User = require('./models/user');
 var methodOverride = require('method-override');
-var seedDB = require("./seeds");
+var databaseClean = require("./database_clean");
 
 var campgroundRoutes = require('./routes/campgrounds');
 var reviewRoutes = require('./routes/reviews');
@@ -19,7 +19,7 @@ mongoose.connect("mongodb://localhost:27017/yelpcamp", { useUnifiedTopology: tru
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(methodOverride("_method"));
-// seedDB();
+// databaseClean();
 
 app.use(require("express-session")({
     secret: "Jai Shree Ram",
@@ -31,6 +31,8 @@ app.use(passport.session());
 passport.use(new passportLocal(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+app.use(express.static(__dirname + '/public'));
 
 app.use(function (req, res, next){
     res.locals.currentUser = req.user;
