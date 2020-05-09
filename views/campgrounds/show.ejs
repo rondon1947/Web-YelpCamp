@@ -56,10 +56,12 @@
                             <p>
                                 <%= review.text %>
                             </p>
-                            <a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground._id %>/reviews/<%= review._id %>/edit">Edit</a>
-                            <form style="margin-left: 10px; display: inline" method="post" action="/campgrounds/<%= campground._id %>/reviews/<%= review._id %>/delete?_method=DELETE">
-                                <button class="btn btn-xs btn-danger">Delete</button>
-                            </form>
+                            <% if(currentUser && review.author.id.equals(currentUser._id)){ %>
+                                <a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground._id %>/reviews/<%= review._id %>/edit">Edit</a>
+                                <form style="margin-left: 10px; display: inline" method="post" action="/campgrounds/<%= campground._id %>/reviews/<%= review._id %>/delete?_method=DELETE">
+                                    <button class="btn btn-xs btn-danger">Delete</button>
+                                </form>
+                            <% } %>
                         </div>
                     </div>
                 <% }) %>

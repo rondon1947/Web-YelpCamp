@@ -45,19 +45,19 @@ router.get("/:id", function(req, res){
     });
 });
 
-router.get("/:id/edit", isOwner, function (req, res){
+router.get("/:id/edit", isCampgroundOwner, function (req, res){
     Campground.findById(req.params.id, function (err, foundCampground){
         res.render("campgrounds/edit", {campground: foundCampground});
     });
 });
 
-router.put("/:id/update", isOwner, function (req, res){
+router.put("/:id/update", isCampgroundOwner, function (req, res){
     Campground.findByIdAndUpdate(req.params.id, req.body.campground, function (err, updatedCampground){
         res.redirect("/campgrounds/"+req.params.id)
     });
 });
 
-router.delete("/:id", isOwner, function (req, res){
+router.delete("/:id", isCampgroundOwner, function (req, res){
     Campground.findByIdAndDelete(req.params.id, function (err){
         res.redirect("/campgrounds");
     });
@@ -70,7 +70,7 @@ function isLoggedIn(req, res, next){
     res.redirect("/login");
 }
 
-function isOwner(req, res, next){
+function isCampgroundOwner(req, res, next){
     if(req.isAuthenticated()){
         Campground.findById(req.params.id, function (err, foundCampground){
             if(err){

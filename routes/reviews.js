@@ -22,7 +22,7 @@ router.post("/", isLoggedIn, function (req, res){
     });
 });
 
-router.get("/:review_id/edit", function (req, res){
+router.get("/:review_id/edit", isReviewOwner, function (req, res){
     Review.findById(req.params.review_id, function (err, foundReview){
         if(err){
             res.redirect("back");
@@ -32,7 +32,7 @@ router.get("/:review_id/edit", function (req, res){
     });
 });
 
-router.put("/:review_id/update", function (req, res){
+router.put("/:review_id/update", isReviewOwner, function (req, res){
     Review.findByIdAndUpdate(req.params.review_id, req.body.review, function (err, updatedReview){
         if(err){
             res.redirect("back");
@@ -42,7 +42,7 @@ router.put("/:review_id/update", function (req, res){
     });
 });
 
-router.delete("/:review_id/delete", function (req, res){
+router.delete("/:review_id/delete", isReviewOwner, function (req, res){
     Review.findByIdAndDelete(req.params.review_id, function (err){
         if(err){
             res.redirect("back");
@@ -59,9 +59,9 @@ function isLoggedIn(req, res, next){
     res.redirect("/login");
 }
 
-function isOwner(req, res, next){
+function isReviewOwner(req, res, next){
     if(req.isAuthenticated()){
-        Review.findById(req.params.id, function (err, foundReview){
+        Review.findById(req.params.review_id, function (err, foundReview){
             if(err){
                 res.redirect("back");
             } else{
