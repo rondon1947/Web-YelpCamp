@@ -47,17 +47,21 @@
                     </a>
                 </div>
                 <% campground.reviews.forEach(function(review){ %>
-                <div class="row">
-                    <div class="col-md-12">
-                        <strong><%= review.author.username %></strong> :
-                        <span class="pull-right">
-                            10 days ago
-                        </span>
-                        <p>
-                            <%= review.text %>
-                        </p>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <strong><%= review.author.username %></strong> :
+                            <span class="pull-right">
+                                10 days ago
+                            </span>
+                            <p>
+                                <%= review.text %>
+                            </p>
+                            <a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground._id %>/reviews/<%= review._id %>/edit">Edit</a>
+                            <form style="margin-left: 10px; display: inline" method="post" action="/campgrounds/<%= campground._id %>/reviews/<%= review._id %>/delete?_method=DELETE">
+                                <button class="btn btn-xs btn-danger">Delete</button>
+                            </form>
+                        </div>
                     </div>
-                </div>
                 <% }) %>
             </div>
         </div>
