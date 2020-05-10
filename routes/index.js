@@ -1,53 +1,50 @@
-var express = require("express");
-var router  = express.Router();
-var passport = require("passport");
-var User = require("../models/user");
+var express = require('express');
+var router = express.Router();
+var User = require('../models/user');
+var passport = require('passport');
+var passportLocal = require('passport-local');
+var passportLocalMongoose = require('passport-local-mongoose');
 
-//root route
-router.get("/", function(req, res){
+router.get("/", function (req, res) {
     res.render("landing");
 });
 
-// show register form
-router.get("/register", function(req, res){
-   res.render("register"); 
+router.get("/register", function (req, res){
+    res.render("register");
 });
 
-//handle sign up logic
-router.post("/register", function(req, res){
-    var newUser = new User({username: req.body.username});
-    User.register(newUser, req.body.password, function(err, user){
-        if(err){
-            req.flash("error", err.message);
-            return res.render("register");
+router.post("/register", function(req, res) {
+    User.register(new User({username: req.body.username}), req.body.password, function (err, user) {
+        if (err){
+            console.log(err);
+            return res.redirect("/register");
         }
-        passport.authenticate("local")(req, res, function(){
-           req.flash("success", "Welcome to YelpCamp " + user.username);
-           res.redirect("/campgrounds"); 
+        passport.authenticate("local")(req, res, function (){
+            res.redirect("/campgrounds");
         });
     });
 });
 
-//show login form
-router.get("/login", function(req, res){
-   res.render("login"); 
+router.get("/login", function (req, res){
+    res.render("login");
 });
 
-//handling login logic
-router.post("/login", passport.authenticate("local", 
-    {
-        successRedirect: "/campgrounds",
-        failureRedirect: "/login"
-    }), function(req, res){
+router.post("/login", passport.authenticate("local", {
+    successRedirect: "/campgrounds",
+    failureRedirect : "/login"
+}), function (req, res){
 });
 
-// logout route
-router.get("/logout", function(req, res){
-   req.logout();
-   req.flash("success", "Logged you out!");
-   res.redirect("/campgrounds");
+router.get("/logout", function (req, res){
+    req.logout();
+    res.redirect("/campgrounds");
 });
 
-
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login");
+}
 
 module.exports = router;
