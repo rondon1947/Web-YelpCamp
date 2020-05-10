@@ -1,21 +1,52 @@
-/*#all_campgrounds {*/
-/*    display:flex;*/
-/*    flex-wrap: wrap;*/
-/*}*/
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+}
 
-/*#new_campground_heading{*/
-/*    text-align: center;*/
-/*}*/
+.container .text-muted {
+  margin: 20px 0;
+}
 
-/*#new_campground_form{*/
-/*    width: 30%;*/
-/*    margin: 35px auto;*/
-/*}*/
+/* Thumbnail styles */
+.thumbnail img {
+    width: 100%;
+}
 
-/*#edit_campground_heading{*/
-/*    text-align: center;*/
-/*}*/
+.thumbnail {
+    padding: 0;
+}
 
-/*#edit_campground_form{*/
-/*    width: 30%; margin: 35px auto;*/
-/*}*/
+.thumbnail .caption-full {
+    padding: 9px;
+}
+
+/* Google Map styles */
+#map {
+	height: 400px;
+	width: 100%;
+}
+
+/* Campground show page delete button */
+.delete-form {
+	display: inline-block;
+}
+
+/* Flexbox grid fix */
+.flex-wrap {
+  display:flex;
+  flex-wrap: wrap;
+}
