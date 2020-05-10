@@ -1,21 +1,15 @@
-/*#all_campgrounds {*/
-/*    display:flex;*/
-/*    flex-wrap: wrap;*/
-/*}*/
+.thumbnail img {
+    width: 100%;
+}
 
-/*#new_campground_heading{*/
-/*    text-align: center;*/
-/*}*/
+.thumbnail {
+    padding: 0;
+}
 
-/*#new_campground_form{*/
-/*    width: 30%;*/
-/*    margin: 35px auto;*/
-/*}*/
+.thumbnail .caption-full {
+    padding: 9px;
+}
 
-/*#edit_campground_heading{*/
-/*    text-align: center;*/
-/*}*/
-
-/*#edit_campground_form{*/
-/*    width: 30%; margin: 35px auto;*/
-/*}*/
+#delete-form {
+    display: inline;
+}
