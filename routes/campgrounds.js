@@ -40,7 +40,7 @@ router.get("/", function (req, res) {
 });
 
 //CREATE - add new campground to DB
-router.post("/", isLoggedIn, isSafe, function (req, res) {
+router.post("/", isLoggedIn, function (req, res) {
     // get data from form and add to campgrounds array
     var name = req.body.name;
     var image = req.body.image;
@@ -108,7 +108,7 @@ router.get("/:id/edit", checkUserCampground, function (req, res) {
 });
 
 // PUT - updates campground in the database
-router.put("/:id", isSafe, checkUserCampground, function (req, res) {
+router.put("/:id", checkUserCampground, function (req, res) {
     // geocoder.geocode(req.body.location, function (err, data) {
     //     var lat = data.results[0].geometry.location.lat;
     //     var lng = data.results[0].geometry.location.lng;
