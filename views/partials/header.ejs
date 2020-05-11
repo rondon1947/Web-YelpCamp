@@ -1,50 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>YelpCamp</title>
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-      <link rel="stylesheet" href="/stylesheets/main.css">
-  </head>
-  <body>
-  <nav class="navbar navbar-default">
-      <div class="container">
-          <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>YelpCamp</title>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <style type="text/css">
+        #social {
+            width: 80px;
+            perspective: 1000px;
+        }
+
+        .cube {
+            margin: auto;
+            position: relative;
+            width: 40px;
+            height: 40px;
+            transform-style: preserve-3d;
+            transition: transform 2.5s ease;
+            text-decoration-color: white;
+        }
+
+        .cube:hover {
+            transform: rotateX(180deg) rotateY(720deg);
+        }
+
+        .side {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            text-transform: uppercase;
+            text-align: center;
+            text-decoration-color: white;
+        }
+
+        .side.back {
+            transform: translateZ(-20px) rotateX(180deg);
+        }
+
+        .side.left {
+            transform: translateX(-20px) rotateY(-90deg);
+        }
+
+        .side.right {
+            transform: translateX(20px) rotateY(90deg);
+        }
+
+        .side.front {
+            transform: translateZ(20px);
+        }
+
+        .side.top {
+            transform: translateY(-20px) rotateX(90deg);
+        }
+
+        .side.bottom {
+            transform: translateY(20px) rotateX(90deg);
+        }
+
+        .side.grey {
+            color: #777;
+            background-color: white;
+            width: 40px;
+            height: 40px;
+        }
+
+        .side.black {
+            color: white;
+            background-color: #ff0000;
+            width: 40px;
+            height: 40px;
+        }
+
+        .side.twitter {
+            color: white;
+            background-color: #0084b4;
+            width: 40px;
+            height: 40px;
+        }
+
+        .side.facebook {
+            color: white;
+            background-color: #3b5998;
+            width: 40px;
+            height: 40px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
-              </button>
+            </button>
 
-              <a class="navbar-brand" href="/">YelpCamp</a>
-          </div>
-          <div id="navbar" class="collapse navbar-collapse">
+            <a class="navbar-brand" href="/">YelpCamp</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-              <li class="<%= typeof page !== 'undefined' && page === 'campgrounds' ? 'active' : '' %>"><a href="/campgrounds">Home</a></li>
+                <li class="<%= typeof page !== 'undefined' && page === 'campgrounds' ? 'active' : '' %>"><a
+                            href="/campgrounds">Home</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <% if(!currentUser){ %>
-                    <li class="<%= typeof page !== 'undefined' && page === 'login' ? 'active' : '' %>"><a href="/login">Login</a></li>
-                    <li class="<%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>"><a href="/register">Sign Up</a></li>
+                    <li class="<%= typeof page !== 'undefined' && page === 'login' ? 'active' : '' %>"><a href="/login">Login</a>
+                    </li>
+                    <li class="<%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>"><a
+                                href="/register">Sign Up</a></li>
                 <% } else { %>
                     <li><a href="#">Signed In As <%= currentUser.username %></a></li>
                     <li><a href="/logout">Logout</a></li>
                 <% } %>
             </ul>
-          </div>
-      </div>
-  </nav>
-  
-  <div class="container">
-     <% if(error && error.length > 0) { %>
-       <div class="alert alert-danger"><p><%=error %></p></div>
-     <% } %>
-     
-     <% if(success && success.length > 0) { %>
-       <div class="alert alert-success"><p><%= success %></p></div>
-     <% } %>
-  </div>
-  <div class="container">
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <% if(error && error.length > 0) { %>
+    <div class="alert alert-danger"><p><%= error %></p></div>
+    <% } %>
+
+    <% if(success && success.length > 0) { %>
+        <div class="alert alert-success"><p><%= success %></p></div>
+    <% } %>
+</div>
+<div class="container">

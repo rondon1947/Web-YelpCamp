@@ -102,13 +102,13 @@ router.get("/:id", function (req, res) {
 });
 
 // EDIT - shows edit form for a campground
-router.get("/:id/edit", isLoggedIn, checkUserCampground, function (req, res) {
+router.get("/:id/edit", checkUserCampground, function (req, res) {
     //render edit template with that campground
     res.render("campgrounds/edit", {campground: req.campground});
 });
 
 // PUT - updates campground in the database
-router.put("/:id", isSafe, function (req, res) {
+router.put("/:id", isSafe, checkUserCampground, function (req, res) {
     // geocoder.geocode(req.body.location, function (err, data) {
     //     var lat = data.results[0].geometry.location.lat;
     //     var lng = data.results[0].geometry.location.lng;
@@ -135,7 +135,7 @@ router.put("/:id", isSafe, function (req, res) {
 });
 
 // DELETE - removes campground and its comments from the database
-router.delete("/:id", isLoggedIn, checkUserCampground, function (req, res) {
+router.delete("/:id", checkUserCampground, function (req, res) {
     Comment.remove({
         _id: {
             $in: req.campground.comments
