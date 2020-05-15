@@ -18,7 +18,7 @@ var commentRoutes    = require("./routes/comments"),
 
 mongoose.Promise = global.Promise;
 
-const databaseUri = process.env.MONGODB_URI || 'mongodb://localhost/yelp_camp';
+const databaseUri = 'mongodb://rondon7:<JaiShreeRam>@yelpcamp-shard-00-00-f0wfe.mongodb.net:27017,yelpcamp-shard-00-01-f0wfe.mongodb.net:27017,yelpcamp-shard-00-02-f0wfe.mongodb.net:27017/test?ssl=true&replicaSet=YelpCamp-shard-0&authSource=admin&retryWrites=true&w=majority' || 'mongodb://localhost/yelp_camp';
 
 mongoose.connect(databaseUri, { useNewUrlParser: true, useUnifiedTopology: true })
       .then(() => console.log(`Database connected`))
