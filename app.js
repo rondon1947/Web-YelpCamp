@@ -1,3 +1,4 @@
+require("express-session");
 var express     = require("express"),
     app         = express(),
     bodyParser  = require("body-parser"),
@@ -6,21 +7,15 @@ var express     = require("express"),
     cookieParser = require("cookie-parser"),
     LocalStrategy = require("passport-local"),
     flash        = require("connect-flash"),
-    Campground  = require("./models/campground"),
-    Comment     = require("./models/comment"),
     User        = require("./models/user"),
-    session = require("express-session"),
-    seedDB      = require("./seeds"),
     methodOverride = require("method-override");
-// configure dotenv
+
 require('dotenv').load();
 
-//requiring routes
 var commentRoutes    = require("./routes/comments"),
     campgroundRoutes = require("./routes/campgrounds"),
-    indexRoutes      = require("./routes/index")
-    
-// assign mongoose promise library and connect to database
+    indexRoutes      = require("./routes/index");
+
 mongoose.Promise = global.Promise;
 
 const databaseUri = process.env.MONGODB_URI || 'mongodb://localhost/yelp_camp';
@@ -34,7 +29,6 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride('_method'));
 app.use(cookieParser('secret'));
-//require moment
 app.locals.moment = require('moment');
 // seedDB(); //seed the database
 
@@ -64,6 +58,7 @@ app.use("/", indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
-app.listen(3000, function(){
-   console.log("The YelpCamp Server Has Started!");
+var port = process.env.PORT || 3000;
+app.listen(port, function () {
+    console.log("YelpCamp Server Has Started!");
 });
