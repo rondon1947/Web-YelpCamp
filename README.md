@@ -1,22 +1,23 @@
-[![Contributors][contributors-shield]][contributors-url]
+<!-- Badges to be Included -->
+<!-- [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
+[![LinkedIn][linkedin-shield]][linkedin-url] -->
 
 <!-- # YelpCamp - Best Grounds for Camping -->
 
 <br />
 <p align="center">
   <a href="https://github.com/rondon1947/YelpCamp">
-    <img src="images/camp_logo.png" alt="Logo" width="80" height="80">
+    <img src="https://github.com/rondon1947/YelpCamp/blob/master/images/project_logo.png" alt="Logo" width="80" height="80">
   </a>
   <h3 align="center">YelpCamp - the Best Grounds for Camping</h3>
   <p align="center">
     The master project of Colt Steele's Web Development Bootcamp. It is a Camping Ground site, where different agencies can register and show their various Camping tour packages.
     <br />
-    <a href="https://github.com/rondon1947/YelpCamp">Explore the Project Code »</a>
+    <a href="https://github.com/rondon1947/YelpCamp">Explore the Project Code</a>
     .
     <a href="https://murmuring-wave-18307.herokuapp.com/">View Hosted Website</a>
   </p>
@@ -42,7 +43,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Yelpcamp Landing Page Screen Shot][landing-page-screenshot]](/images/landing_page.png)
+<img src="(https://github.com/rondon1947/YelpCamp/blob/master/images/landing_page.png" alt="YelpCamp's Landing Page" width="700" height="450">
 
 <!-- There are many great README templates available on GitHub, however, I didn't find one that really suit my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need.
 
@@ -122,7 +123,7 @@ See [CONTRIBUTING.md](https://github.com/rondon1947/YelpCamp/blob/master/CONTRIB
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See [LICENSE](https://github.com/rondon1947/YelpCamp/blob/master/LICENSE)<!-- `LICENSE`  -->for more information.
+Distributed under the MIT License. See [MIT LICENSE](https://github.com/rondon1947/YelpCamp/blob/master/LICENSE)<!-- `LICENSE`  --> for more information.
 
 
 
